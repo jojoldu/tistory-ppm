@@ -1,5 +1,8 @@
-import Parser from 'rss-parser';
-import dateFormat from 'dateformat';
+// import Parser from 'rss-parser';
+// import dateFormat from 'dateformat';
+
+const Parser = require('../../node_modules/rss-parser/dist/rss-parser');
+const dateFormat = require('../../node_modules/dateformat/lib/dateformat');
 
 let parser = new Parser();
 
@@ -18,7 +21,8 @@ export function groupBy(dates) {
         if (!res[value]) {
             res[value] = {
                 date: value,
-                count: 0
+                count: 0,
+
             }
             result.push(res[value])
         }
@@ -33,7 +37,7 @@ export function groupBy(dates) {
 
 export async function analyze(url) {
     const dates = await feed(url);
-    const transformDates = dates.map(date => transform(date));
+    const dateCounts = groupBy(dates.map(date => transform(date)));
 
 }
 
