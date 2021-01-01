@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Tistory Posts Per Month</title>
     <meta property="og:title" content="Tistory Posts Per Month">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.1/dist/bootstrap-table.min.css">
     <style>
         html,
         body {
@@ -128,41 +129,45 @@
                 color: #777;
             }
         }
-
+        .fw-normal {
+            font-weight: 400!important;
+        }
+        .mb-3 {
+            margin-bottom: 1rem!important;
+        }
+        .mt-5 {
+            margin-top: 3rem!important;
+        }
+        .text-muted {
+            color: #6c757d!important;
+        }
     </style>
-    <script src="./dist/js/bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.1/dist/bootstrap-table.min.js"></script>
 </head>
 <body>
 <form class="form-signin">
 
+    <h1 class="h3 mb-3 fw-normal">티스토리 RSS 주소</h1>
     <div class="form-label-group">
         <input type="text" id="url" class="form-control" placeholder="티스토리 RSS 주소" required="" autofocus="">
         <label for="url">https://xxx.tistory.com/rss</label>
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="button">Analyze</button>
-
-    <table data-toggle="table" id="result">
-        <thead>
-        <tr>
-            <th>Item ID</th>
-            <th>Item Name</th>
-            <th>Item Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td>Item 1</td>
-            <td>$1</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Item 2</td>
-            <td>$2</td>
-        </tr>
-        </tbody>
-    </table>
+    <button class="btn btn-lg btn-primary btn-block" type="button" id="analyze">Analyze</button>
+    <br><br><br>
+    <div class="mb-3">
+        <table data-toggle="table" id="table">
+            <thead>
+            <tr>
+                <th data-field="date">월</th>
+                <th data-field="count">발행수</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <p class="mt-5 mb-3 text-muted">© jojoldu</p>
 </form>
+<script src="./dist/js/bundle.js"></script>
 </body>
 </html>

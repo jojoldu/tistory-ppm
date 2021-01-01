@@ -28,3 +28,9 @@ test("월별 역순 정렬된다",  () => {
     expect(result[0].date).toBe("2021-02");
     expect(result[1].date).toBe("2021-01");
 });
+
+test('최종 확인', async () => {
+    const result = await lib.analyze("https://jojoldu.tistory.com/rss");
+
+    console.log(result);
+});
