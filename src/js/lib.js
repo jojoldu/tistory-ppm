@@ -2,37 +2,43 @@ const axios = require('axios').default;
 const {TistoryError} = require('./TistoryError');
 
 export async function feed(accessToken, blogName) {
-    let totalCount;
-    let page = 1;
-    const dates = [];
-    while (true) {
-        let tistory = await getPosts(accessToken, blogName, page);
-        if (page === 1) {
-            totalCount = tistory.totalCount;
-        }
+    const totalCount = await getTotalCount(accessToken, blogName);
+    if(totalCount === 0){
+        return [];
+    }
+    const pages = getPageParameters(totalCount);
+    const dates = await Promise.all(pages.map(page => getPosts(accessToken, blogName, page)));
 
-        dates.push(...tistory.dates);
+    return dates.flat(1);
+}
 
-        if (dates.length >= totalCount) {
-            break;
-        }
+export async function getTotalCount(accessToken, blogName) {
+    try {
+        const response = await axios.get(`https://www.tistory.com/apis/post/list?access_token=${accessToken}&output=json&blogName=${blogName}&page=1`);
+        return Number.parseInt(response.data.tistory.item.totalCount);
+    } catch (e) {
+        const status = e.response.status;
+        const message = e.response.data.tistory ? e.response.data.tistory.error_message : e.response.statusText;
 
-        page++;
+        console.log(`status:${status}, message=${message}`);
+        throw new TistoryError(status, message);
+    }
+}
+
+export function getPageParameters(totalCount) {
+    const pageCount = Math.ceil(totalCount/10);
+    const pages = [];
+    for (let i = 1; i <=pageCount; i++) {
+        pages.push(i);
     }
 
-    return dates;
+    return pages;
 }
 
 export async function getPosts(accessToken, blogName, page) {
-    if (page < 1) {
-        throw new Error(`티스토리는 1페이지부터 조회 가능합니다. request Page=${page}`);
-    }
     try {
         const response = await axios.get(`https://www.tistory.com/apis/post/list?access_token=${accessToken}&output=json&blogName=${blogName}&page=${page}`);
-        return {
-            totalCount: Number.parseInt(response.data.tistory.item.totalCount),
-            dates: response.data.tistory.item.posts.map(item => item.date)
-        };
+        return response.data.tistory.item.posts.map(item => item.date)
     } catch (e) {
         const status = e.response.status;
         const message = e.response.data.tistory ? e.response.data.tistory.error_message : e.response.statusText;
