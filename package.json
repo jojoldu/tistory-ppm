@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "jsdom"
   },
   "scripts": {
-    "test": "jest --env=node",
+    "test": "jest",
     "build": "webpack"
   },
   "keywords": [],

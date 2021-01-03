@@ -1,22 +1,19 @@
-const dateFormat = require('dateformat');
 const axios = require('axios').default;
 const {TistoryError} = require('./TistoryError');
 
 export async function feed(accessToken, blogName) {
-    // const channel = await parser.parseURL(url);
-    // return channel.items.map(item => item.pubDate);
     let totalCount;
     let page = 1;
     const dates = [];
-    while(true) {
+    while (true) {
         let tistory = await getPosts(accessToken, blogName, page);
-        if(page === 1) {
+        if (page === 1) {
             totalCount = tistory.totalCount;
         }
 
         dates.push(...tistory.dates);
 
-        if(dates.length >= totalCount) {
+        if (dates.length >= totalCount) {
             break;
         }
 
@@ -27,7 +24,7 @@ export async function feed(accessToken, blogName) {
 }
 
 export async function getPosts(accessToken, blogName, page) {
-    if(page < 1) {
+    if (page < 1) {
         throw new Error(`티스토리는 1페이지부터 조회 가능합니다. request Page=${page}`);
     }
     try {
@@ -38,7 +35,7 @@ export async function getPosts(accessToken, blogName, page) {
         };
     } catch (e) {
         const status = e.response.status;
-        const message = e.response.data.tistory? e.response.data.tistory.error_message : e.response.statusText;
+        const message = e.response.data.tistory ? e.response.data.tistory.error_message : e.response.statusText;
 
         console.log(`status:${status}, message=${message}`);
         throw new TistoryError(status, message);
@@ -46,7 +43,7 @@ export async function getPosts(accessToken, blogName, page) {
 }
 
 export function transform(dateTime) {
-    return dateTime.substr(0,7);
+    return dateTime.substr(0, 7);
 }
 
 export function groupBy(dates) {
@@ -69,8 +66,8 @@ export function groupBy(dates) {
     });
 }
 
-export async function analyze(url) {
-    const dates = await feed(url);
+export async function analyze(accessToken, blogName) {
+    const dates = await feed(accessToken, blogName);
     const countedDates = groupBy(dates.map(date => transform(date)));
     const totalCount = countedDates
         .map(x => x.count)
@@ -84,12 +81,5 @@ export async function analyze(url) {
     };
 }
 
-// todo 시간되면 별도 웹 사이트에서 제공
-// (현재는 cross domain때문에 브라우저에서는 rss 주소 호출 못함)
-export async function render() {
-    const url = document.getElementById("url").value;
-    const dateCounts = analyze(url);
-    const $table = $('#table')
-    $table.bootstrapTable({data: dateCounts});
-}
+
 

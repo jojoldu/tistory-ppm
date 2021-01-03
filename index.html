@@ -145,29 +145,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.1/dist/bootstrap-table.min.js"></script>
 </head>
-<body>
-<form class="form-signin">
+<body class="text-center">
+    <main class="form-signin">
+        <form>
+            <h1 class="h3 mb-3 fw-normal">티스토리 블로그명</h1>
+            <div class="form-label-group">
+                <input type="text" id="blogName" class="form-control" placeholder="티스토리 블로그명" autofocus="" required>
+                <label for="blogName">https://xxx.tistory.com 에서 xxx</label>
+            </div>
 
-    <h1 class="h3 mb-3 fw-normal">티스토리 RSS 주소</h1>
-    <div class="form-label-group">
-        <input type="text" id="url" class="form-control" placeholder="티스토리 RSS 주소" required="" autofocus="">
-        <label for="url">https://xxx.tistory.com/rss</label>
-    </div>
-
-    <button class="btn btn-lg btn-primary btn-block" type="button" id="analyze">Analyze</button>
-    <br><br><br>
-    <div class="mb-3">
-        <table data-toggle="table" id="table">
-            <thead>
-            <tr>
-                <th data-field="date">월</th>
-                <th data-field="count">발행수</th>
-            </tr>
-            </thead>
-        </table>
-    </div>
-    <p class="mt-5 mb-3 text-muted">© jojoldu</p>
-</form>
+            <h1 class="h3 mb-3 fw-normal">티스토리 accessToken</h1>
+            <div class="form-label-group">
+                <input type="text" id="accessToken" class="form-control" placeholder="티스토리 accessToken" autofocus="" required>
+                <label for="accessToken">OAuth Access Token</label>
+            </div>
+            <div class="mb-3">
+                <a href="https://hanshuginn.blogspot.com/2019/01/api.html">accessToken 발급 받기</a>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="button" id="analyze">Analyze</button>
+            <br>
+            <div class="mb-3">
+                <table id="table"></table>
+            </div>
+            <p class="mt-5 mb-3 text-muted">© jojoldu</p>
+        </form>
+    </main>
 <script src="./dist/js/bundle.js"></script>
 </body>
 </html>
