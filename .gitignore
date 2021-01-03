@@ -3,3 +3,5 @@
 node_modules
 *.iml
 dist
+*.real.test.js
+tistory.http
