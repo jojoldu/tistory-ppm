@@ -2,6 +2,6 @@
 .idea
 node_modules
 *.iml
-dist
+public/js
 *.real.test.js
 tistory.http
